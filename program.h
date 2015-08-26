@@ -21,5 +21,7 @@ typedef struct
 
 void errorHandle(const char* msg); // TODO use <stdarg.h> to make this function take variable # of args
 void* threadFunction(void* arg);
+void createThreads(ThreadData* td);
+void joinThreads(ThreadData* td);
 
 #endif
