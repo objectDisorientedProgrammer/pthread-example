@@ -37,7 +37,7 @@ typedef struct
 	char message[MSG_SIZE];
 } ThreadData;
 
-char* license = "Copyright (C) 2015 Douglas Chidester. This program comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under certain conditions.";
+char* license = "Copyright (C) 2015 Douglas Chidester. This program comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under certain conditions.\n";
 
 void errorHandle(const char* msg); // TODO use <stdarg.h> to make this function take variable # of args
 void* threadFunction(void* arg);

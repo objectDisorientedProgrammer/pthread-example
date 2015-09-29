@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 {
 	ThreadData td[NUM_THREADS];
 
-	puts(license);
+	puts(license); // show GPL at start of program output
 
 	createThreads(td);
 	
@@ -30,18 +30,19 @@ int main(int argc, char* argv[])
 
 	joinThreads(td);
 
-	puts("Main thread joined all child threads. Now exiting");
+	puts("Main thread joined all child threads. Now exiting.\n");
 
 	return 0;
 }
 
-// TODO use <stdarg.h> to make this function take variable # of args
+// Print an error message to stderr
 void errorHandle(const char* msg)
 {
 	fprintf(stderr, msg);
 	exit(-1);
 }
 
+// Each thread executes this function
 void* threadFunction(void* arg)
 {
 	ThreadData* data = (ThreadData*) arg;
@@ -51,6 +52,7 @@ void* threadFunction(void* arg)
 	pthread_exit(0);
 }
 
+// Create all threads and catch errors
 void createThreads(ThreadData* td)
 {
 	char* tMsg = "Hello from thread ";
@@ -64,6 +66,7 @@ void createThreads(ThreadData* td)
 	}
 }
 
+// Collect finished threads and catch errors
 void joinThreads(ThreadData* td)
 {
 	for(uint8 j = 0; j < NUM_THREADS; ++j)
