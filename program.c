@@ -103,19 +103,19 @@ void promptForNewMessage(char* msg)
 {
 	printf("Would you like to change the thread message? (y/N) ");
 	scanf("%c", msg);
+	fflush(stdin);
 	
-	switch(*msg)
+switch(*msg)
 	{
 		case 'y':
 		case 'Y':
 			// get new number of threads
 			printf("Please enter a new message:\n    ");
-			fflush(stdin);
-			scanf("%s", msg);
+			scanf("%[^\n]", msg);
 			//if(fgets(msg, MSG_SIZE, stdin) == NULL)
 			//	errorHandle("No new message was entered.\n");
 			return;
 	}
-	fflush(stdin);
+
 	strcpy(msg, "Hello from this thread.");
 }
