@@ -74,7 +74,7 @@ void joinThreads(ThreadData* td, int numberOfThreads)
 			errorHandle("Error joining thread");
 }
 
-// Let the user change values if desired
+// Let the user change number of threads created if desired
 int promptForInteractiveMode(void)
 {
 	char response = '\0';
