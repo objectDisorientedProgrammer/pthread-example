@@ -20,15 +20,15 @@
 
 int main(int argc, char* argv[])
 {
-	ThreadData td[NUM_THREADS];
-
 	puts(license); // show GPL at start of program output
-
-	createThreads(td);
+	
+	int threads = promptForInteractiveMode();
+	ThreadData td[threads];
+	createThreads(td, threads);
 	
 	puts("Main thread created all child threads..");
 
-	joinThreads(td);
+	joinThreads(td, threads);
 
 	puts("Main thread joined all child threads. Now exiting.\n");
 
@@ -53,11 +53,11 @@ void* threadFunction(void* arg)
 }
 
 // Create all threads and catch errors
-void createThreads(ThreadData* td)
+void createThreads(ThreadData* td, int numberOfThreads)
 {
 	char* tMsg = "Hello from thread ";
 	
-	for(uint8 i = 0; i < NUM_THREADS; ++i)
+	for(uint8 i = 0; i < numberOfThreads; ++i)
 	{
 		td[i].id = i+1;
 		strcpy(td[i].message, tMsg);
@@ -67,9 +67,31 @@ void createThreads(ThreadData* td)
 }
 
 // Collect finished threads and catch errors
-void joinThreads(ThreadData* td)
+void joinThreads(ThreadData* td, int numberOfThreads)
 {
-	for(uint8 j = 0; j < NUM_THREADS; ++j)
+	for(uint8 j = 0; j < numberOfThreads; ++j)
 		if(pthread_join(td[j].tid, NULL))
 			errorHandle("Error joining thread");
+}
+
+// Let the user change values if desired
+int promptForInteractiveMode(void)
+{
+	char response = '\0';
+	int numThrds = 0;
+	printf("Would you like to change the number of threads created? (y/N) ");
+	scanf("%c", &response);
+	
+	switch(response)
+	{
+		case 'y':
+		case 'Y':
+			// get new number of threads
+			printf("Please enter the number of threads you would like: ");
+			scanf("%d", &numThrds);
+			return numThrds;
+	}
+
+	// default return value
+	return NUM_THREADS;
 }
