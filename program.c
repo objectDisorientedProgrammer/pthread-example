@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 {
 	puts(license); // show GPL at start of program output
 	
-	int threads = promptForInteractiveMode();
+	int threads = promptForMoreThreads();
 	ThreadData td[threads];
 	createThreads(td, threads);
 	
@@ -47,7 +47,7 @@ void* threadFunction(void* arg)
 {
 	ThreadData* data = (ThreadData*) arg;
 	
-	printf("[%ld] %s%d.\n", data->tid, data->message, data->id);
+	printf("[%ld, %d] %s\n", data->tid, data->id, data->message);
 
 	pthread_exit(0);
 }
@@ -55,7 +55,9 @@ void* threadFunction(void* arg)
 // Create all threads and catch errors
 void createThreads(ThreadData* td, int numberOfThreads)
 {
-	char* tMsg = "Hello from thread ";
+	char tMsg[MSG_SIZE];
+
+	promptForNewMessage(tMsg);
 	
 	for(uint8 i = 0; i < numberOfThreads; ++i)
 	{
@@ -75,7 +77,7 @@ void joinThreads(ThreadData* td, int numberOfThreads)
 }
 
 // Let the user change number of threads created if desired
-int promptForInteractiveMode(void)
+int promptForMoreThreads(void)
 {
 	char response = '\0';
 	int numThrds = 0;
@@ -91,7 +93,29 @@ int promptForInteractiveMode(void)
 			scanf("%d", &numThrds);
 			return numThrds;
 	}
-
+	fflush(stdin);
 	// default return value
 	return NUM_THREADS;
+}
+
+// Let the user change the thread message if desired
+void promptForNewMessage(char* msg)
+{
+	printf("Would you like to change the thread message? (y/N) ");
+	scanf("%c", msg);
+	
+	switch(*msg)
+	{
+		case 'y':
+		case 'Y':
+			// get new number of threads
+			printf("Please enter a new message:\n    ");
+			fflush(stdin);
+			scanf("%s", msg);
+			//if(fgets(msg, MSG_SIZE, stdin) == NULL)
+			//	errorHandle("No new message was entered.\n");
+			return;
+	}
+	fflush(stdin);
+	strcpy(msg, "Hello from this thread.");
 }

@@ -24,7 +24,7 @@
 #include <string.h>
 #include <pthread.h>
 
-#define MSG_SIZE 20
+#define MSG_SIZE 100
 #define NUM_THREADS 4
 
 typedef char uint8;
@@ -43,6 +43,7 @@ void* threadFunction(void* arg);
 void createThreads(ThreadData* td, int numberOfThreads);
 void joinThreads(ThreadData* td, int numberOfThreads);
 
-int promptForInteractiveMode(void);
+int promptForMoreThreads(void);
+void promptForNewMessage(char* msg);
 
 #endif
