@@ -24,8 +24,10 @@
 #include <string.h>
 #include <pthread.h>
 
-#define MSG_SIZE 100
-#define NUM_THREADS 4
+#define MSG_SIZE 				100
+#define DEFAULT_NUM_THREADS		4
+#define MIN_NUMBER_OF_THREADS	1
+#define MAX_NUMBER_OF_THREADS	100
 
 typedef char uint8;
 

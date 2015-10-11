@@ -80,10 +80,9 @@ void joinThreads(ThreadData* td, int numberOfThreads)
 int promptForMoreThreads(void)
 {
 	char response[MSG_SIZE];
-	int numThrds = 0;
+	int numThrds = MIN_NUMBER_OF_THREADS;
 	printf("Would you like to change the number of threads created? (y/N) ");
-	if(fgets(response, MSG_SIZE, stdin) == NULL)
-		errorHandle("No valid response was entered.\n");
+	fgets(response, MSG_SIZE, stdin);
 	
 	switch(*response)
 	{
@@ -92,19 +91,22 @@ int promptForMoreThreads(void)
 			// get new number of threads
 			printf("Please enter the number of threads you would like: ");
 			numThrds = atoi(fgets(response, MSG_SIZE, stdin));
-			return numThrds > 0? numThrds : 1;
+			if(numThrds >= MIN_NUMBER_OF_THREADS &&
+				numThrds =< MAX_NUMBER_OF_THREADS)
+			{
+				return numThrds;
+			}
 	}
 	
 	// default return value
-	return NUM_THREADS;
+	return DEFAULT_NUM_THREADS;
 }
 
 // Let the user change the thread message if desired
 void promptForNewMessage(char* msg)
 {
 	printf("Would you like to change the thread message? (y/N) ");
-	if(fgets(msg, MSG_SIZE, stdin) == NULL)
-		errorHandle("No valid response was entered.\n");
+	fgets(msg, MSG_SIZE, stdin);
 	
 	switch(*msg)
 	{
@@ -117,5 +119,6 @@ void promptForNewMessage(char* msg)
 			return;
 	}
 
+	// default return value
 	strcpy(msg, "Hello from this thread.");
 }
