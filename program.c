@@ -117,6 +117,10 @@ void promptForNewMessage(char* msg)
 			printf("Please enter a new message:\n    ");
 			if(fgets(msg, MSG_SIZE, stdin) == NULL)
 				errorHandle("No new message was entered.\n");
+			
+			// remove extra newline
+			char* last = strrchr(msg, '\n');
+			*last = '\0';
 			return;
 	}
 
