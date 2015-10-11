@@ -91,7 +91,8 @@ int promptForMoreThreads(void)
 			// get new number of threads
 			printf("Please enter the number of threads you would like: ");
 			numThrds = atoi(fgets(response, MSG_SIZE, stdin));
-			//printf("[debug] %d\n", numThrds);
+			
+			// make sure new number is within limits
 			if(numThrds < MIN_NUMBER_OF_THREADS)
 				numThrds = MIN_NUMBER_OF_THREADS;
 			else if(numThrds > MAX_NUMBER_OF_THREADS)
