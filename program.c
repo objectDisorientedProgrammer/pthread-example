@@ -79,21 +79,22 @@ void joinThreads(ThreadData* td, int numberOfThreads)
 // Let the user change number of threads created if desired
 int promptForMoreThreads(void)
 {
-	char response = '\0';
+	char response[MSG_SIZE];
 	int numThrds = 0;
 	printf("Would you like to change the number of threads created? (y/N) ");
-	scanf("%c", &response);
+	if(fgets(response, MSG_SIZE, stdin) == NULL)
+		errorHandle("No valid response was entered.\n");
 	
-	switch(response)
+	switch(*response)
 	{
 		case 'y':
 		case 'Y':
 			// get new number of threads
 			printf("Please enter the number of threads you would like: ");
-			scanf("%d", &numThrds);
-			return numThrds;
+			numThrds = atoi(fgets(response, MSG_SIZE, stdin));
+			return numThrds > 0? numThrds : 1;
 	}
-	fflush(stdin);
+	
 	// default return value
 	return NUM_THREADS;
 }
@@ -102,18 +103,17 @@ int promptForMoreThreads(void)
 void promptForNewMessage(char* msg)
 {
 	printf("Would you like to change the thread message? (y/N) ");
-	scanf("%c", msg);
-	fflush(stdin);
+	if(fgets(msg, MSG_SIZE, stdin) == NULL)
+		errorHandle("No valid response was entered.\n");
 	
-switch(*msg)
+	switch(*msg)
 	{
 		case 'y':
 		case 'Y':
 			// get new number of threads
 			printf("Please enter a new message:\n    ");
-			scanf("%[^\n]", msg);
-			//if(fgets(msg, MSG_SIZE, stdin) == NULL)
-			//	errorHandle("No new message was entered.\n");
+			if(fgets(msg, MSG_SIZE, stdin) == NULL)
+				errorHandle("No new message was entered.\n");
 			return;
 	}
 
