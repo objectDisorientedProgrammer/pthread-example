@@ -20,15 +20,15 @@
 
 int main(int argc, char* argv[])
 {
-	ThreadData td[NUM_THREADS];
-
 	puts(license); // show GPL at start of program output
-
-	createThreads(td);
+	
+	int threads = promptForMoreThreads();
+	ThreadData td[threads];
+	createThreads(td, threads);
 	
 	puts("Main thread created all child threads..");
 
-	joinThreads(td);
+	joinThreads(td, threads);
 
 	puts("Main thread joined all child threads. Now exiting.\n");
 
@@ -47,17 +47,19 @@ void* threadFunction(void* arg)
 {
 	ThreadData* data = (ThreadData*) arg;
 	
-	printf("[%ld] %s%d.\n", data->tid, data->message, data->id);
+	printf("[%ld, %d] %s\n", data->tid, data->id, data->message);
 
 	pthread_exit(0);
 }
 
 // Create all threads and catch errors
-void createThreads(ThreadData* td)
+void createThreads(ThreadData* td, int numberOfThreads)
 {
-	char* tMsg = "Hello from thread ";
+	char tMsg[MSG_SIZE];
+
+	promptForNewMessage(tMsg);
 	
-	for(uint8 i = 0; i < NUM_THREADS; ++i)
+	for(uint8 i = 0; i < numberOfThreads; ++i)
 	{
 		td[i].id = i+1;
 		strcpy(td[i].message, tMsg);
@@ -67,9 +69,62 @@ void createThreads(ThreadData* td)
 }
 
 // Collect finished threads and catch errors
-void joinThreads(ThreadData* td)
+void joinThreads(ThreadData* td, int numberOfThreads)
 {
-	for(uint8 j = 0; j < NUM_THREADS; ++j)
+	for(uint8 j = 0; j < numberOfThreads; ++j)
 		if(pthread_join(td[j].tid, NULL))
 			errorHandle("Error joining thread");
+}
+
+// Let the user change number of threads created if desired
+int promptForMoreThreads(void)
+{
+	char response[MSG_SIZE];
+	int numThrds = MIN_NUMBER_OF_THREADS;
+	printf("Would you like to change the number of threads created? (y/N) ");
+	fgets(response, MSG_SIZE, stdin);
+	
+	switch(*response)
+	{
+		case 'y':
+		case 'Y':
+			// get new number of threads
+			printf("Please enter the number of threads you would like: ");
+			numThrds = atoi(fgets(response, MSG_SIZE, stdin));
+			
+			// make sure new number is within limits
+			if(numThrds < MIN_NUMBER_OF_THREADS)
+				numThrds = MIN_NUMBER_OF_THREADS;
+			else if(numThrds > MAX_NUMBER_OF_THREADS)
+				numThrds = MAX_NUMBER_OF_THREADS;
+			return numThrds;
+	}
+	
+	// default return value
+	return DEFAULT_NUM_THREADS;
+}
+
+// Let the user change the thread message if desired
+void promptForNewMessage(char* msg)
+{
+	printf("Would you like to change the thread message? (y/N) ");
+	fgets(msg, MSG_SIZE, stdin);
+	
+	switch(*msg)
+	{
+		case 'y':
+		case 'Y':
+			// get new number of threads
+			printf("Please enter a new message:\n    ");
+			if(fgets(msg, MSG_SIZE, stdin) == NULL)
+				errorHandle("No new message was entered.\n");
+			
+			// remove extra newline
+			char* last = strrchr(msg, '\n');
+			*last = '\0';
+			return;
+	}
+
+	// default return value
+	strcpy(msg, "Hello from this thread.");
 }

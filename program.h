@@ -22,11 +22,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include <stdarg.h>
 #include <pthread.h>
 
-#define MSG_SIZE 20
-#define NUM_THREADS 4
+#define MSG_SIZE 				100
+#define DEFAULT_NUM_THREADS		4
+#define MIN_NUMBER_OF_THREADS	1
+#define MAX_NUMBER_OF_THREADS	100
 
 typedef char uint8;
 
@@ -39,9 +40,12 @@ typedef struct
 
 char* license = "Copyright (C) 2015 Douglas Chidester. This program comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under certain conditions.\n";
 
-void errorHandle(const char* msg); // TODO use <stdarg.h> to make this function take variable # of args
+void errorHandle(const char* msg);
 void* threadFunction(void* arg);
-void createThreads(ThreadData* td);
-void joinThreads(ThreadData* td);
+void createThreads(ThreadData* td, int numberOfThreads);
+void joinThreads(ThreadData* td, int numberOfThreads);
+
+int promptForMoreThreads(void);
+void promptForNewMessage(char* msg);
 
 #endif
