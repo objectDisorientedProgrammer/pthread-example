@@ -1,6 +1,6 @@
 /*
 	Example program to demonstrate pthreads.
-    Copyright (C) 2015  Doulas Chidester
+    Copyright (C) 2015  Douglas Chidester
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,11 +29,11 @@
 #define MIN_NUMBER_OF_THREADS	1
 #define MAX_NUMBER_OF_THREADS	100
 
-typedef char uint8;
+typedef char int8;
 
 typedef struct
 {
-	uint8 id;
+	int8 id;
 	pthread_t tid;
 	char message[MSG_SIZE];
 } ThreadData;
