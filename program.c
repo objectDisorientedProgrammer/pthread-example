@@ -1,6 +1,6 @@
 /*
 	Example program to demonstrate pthreads.
-    Copyright (C) 2015  Doulas Chidester
+    Copyright (C) 2015  Douglas Chidester
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -59,7 +59,7 @@ void createThreads(ThreadData* td, int numberOfThreads)
 
 	promptForNewMessage(tMsg);
 	
-	for(uint8 i = 0; i < numberOfThreads; ++i)
+	for(int8 i = 0; i < numberOfThreads; ++i)
 	{
 		td[i].id = i+1;
 		strcpy(td[i].message, tMsg);
@@ -71,7 +71,7 @@ void createThreads(ThreadData* td, int numberOfThreads)
 // Collect finished threads and catch errors
 void joinThreads(ThreadData* td, int numberOfThreads)
 {
-	for(uint8 j = 0; j < numberOfThreads; ++j)
+	for(int8 j = 0; j < numberOfThreads; ++j)
 		if(pthread_join(td[j].tid, NULL))
 			errorHandle("Error joining thread");
 }
