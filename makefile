@@ -9,3 +9,6 @@ application: program.c
 
 clean:
 	rm $(EXEC)
+
+.PHONY: clean
+.PHONY: all
