@@ -24,19 +24,19 @@
 #include <string.h>
 #include <pthread.h>
 
-#define MSG_SIZE 				100u
-#define DEFAULT_NUM_THREADS		4u
-#define MIN_NUMBER_OF_THREADS	1u
-#define MAX_NUMBER_OF_THREADS	100u
+#define MSG_SIZE               100u
+#define DEFAULT_NUM_THREADS    4u
+#define MIN_NUMBER_OF_THREADS  1u
+#define MAX_NUMBER_OF_THREADS  100u
 
 typedef char int8; // could use stdint instead
 
 // define what data each thread will use
 typedef struct
 {
-	int8 id;
-	pthread_t tid;
-	char message[MSG_SIZE];
+    int8 id;
+    pthread_t tid;
+    char message[MSG_SIZE];
 } ThreadData;
 
 // license for command line interfaces
