@@ -1,15 +1,16 @@
 # Makefile to build the pthread application
 
-DEPS=program.c program.h
+DEPS=program.c 
 FLAGS=-std=c99 -lpthread -o
 EXEC=application
+CC=clang # gcc
 
 all: $(EXEC)
 
 check: ./$(EXEC)
 
 application: $(DEPS)
-	gcc $(DEPS) $(FLAGS) $(EXEC)
+	$(CC) $(DEPS) $(FLAGS) $(EXEC)
 
 clean:
 	rm $(EXEC)
