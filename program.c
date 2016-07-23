@@ -81,6 +81,7 @@ int promptForMoreThreads(void)
 {
 	char response[MSG_SIZE];
 	int numThrds = MIN_NUMBER_OF_THREADS;
+	// prompt user
 	printf("Would you like to change the number of threads created? (y/N) ");
 	fgets(response, MSG_SIZE, stdin);
 	
@@ -98,6 +99,8 @@ int promptForMoreThreads(void)
 			else if(numThrds > MAX_NUMBER_OF_THREADS)
 				numThrds = MAX_NUMBER_OF_THREADS;
 			return numThrds;
+		default:
+			break;
 	}
 	
 	// default return value
@@ -123,8 +126,11 @@ void promptForNewMessage(char* msg)
 			char* last = strrchr(msg, '\n');
 			*last = '\0';
 			return;
+		default:
+			break;
 	}
 
 	// default return value
 	strcpy(msg, "Hello from this thread.");
 }
+

@@ -24,13 +24,14 @@
 #include <string.h>
 #include <pthread.h>
 
-#define MSG_SIZE 				100
-#define DEFAULT_NUM_THREADS		4
-#define MIN_NUMBER_OF_THREADS	1
-#define MAX_NUMBER_OF_THREADS	100
+#define MSG_SIZE 				100u
+#define DEFAULT_NUM_THREADS		4u
+#define MIN_NUMBER_OF_THREADS	1u
+#define MAX_NUMBER_OF_THREADS	100u
 
-typedef char int8;
+typedef char int8; // could use stdint instead
 
+// define what data each thread will use
 typedef struct
 {
 	int8 id;
@@ -38,14 +39,17 @@ typedef struct
 	char message[MSG_SIZE];
 } ThreadData;
 
-char* license = "Copyright (C) 2015 Douglas Chidester. This program comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under certain conditions.\n";
+// license for command line interfaces
+char* license = "Copyright (C) 2015 Douglas Chidester. This program comes with\nABSOLUTELY NO WARRANTY;\
+ This is free software, and you are welcome to\nredistribute it under certain conditions.\n";
 
-void errorHandle(const char* msg);
-void* threadFunction(void* arg);
-void createThreads(ThreadData* td, int numberOfThreads);
-void joinThreads(ThreadData* td, int numberOfThreads);
+// local functions
+static void errorHandle(const char* msg);
+static void* threadFunction(void* arg);
+static void createThreads(ThreadData* td, int numberOfThreads);
+static void joinThreads(ThreadData* td, int numberOfThreads);
 
-int promptForMoreThreads(void);
-void promptForNewMessage(char* msg);
+static int promptForMoreThreads(void);
+static void promptForNewMessage(char* msg);
 
 #endif
