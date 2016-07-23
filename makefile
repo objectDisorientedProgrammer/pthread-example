@@ -1,10 +1,14 @@
+# Makefile to build the pthread application
+
 DEPS=program.c program.h
 FLAGS=-std=c99 -lpthread -o
 EXEC=application
 
-all: application
+all: $(EXEC)
 
-application: program.c
+check: ./$(EXEC)
+
+application: $(DEPS)
 	gcc $(DEPS) $(FLAGS) $(EXEC)
 
 clean:
@@ -12,3 +16,4 @@ clean:
 
 .PHONY: clean
 .PHONY: all
+
