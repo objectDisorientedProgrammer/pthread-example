@@ -1,9 +1,9 @@
 # Makefile to build the pthread application
 
-DEPS=program.c 
+DEPS=program.c # program file(s)
 FLAGS=-std=c99 -lpthread -o
-EXEC=application
-CC=clang # gcc
+EXEC=application # compiled program name
+CC=clang # compiler
 
 all: $(EXEC)
 
@@ -17,4 +17,3 @@ clean:
 
 .PHONY: clean
 .PHONY: all
-
