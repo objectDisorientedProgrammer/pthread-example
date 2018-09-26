@@ -7,7 +7,8 @@ CC=clang # compiler
 
 all: $(EXEC)
 
-check: ./$(EXEC)
+check: $(EXEC)
+	./$(EXEC)
 
 application: $(DEPS)
 	$(CC) $(DEPS) $(FLAGS) $(EXEC)

@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
 // Print an error message to stderr
 void errorHandle(const char* msg)
 {
-    fprintf(stderr, msg);
+    fprintf(stderr, "%s", msg);
     exit(-1);
 }
 
