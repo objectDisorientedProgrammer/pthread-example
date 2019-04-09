@@ -80,7 +80,7 @@ void joinThreads(ThreadData* td, int numberOfThreads)
 int promptForMoreThreads(void)
 {
     char response[MSG_SIZE];
-    int numThrds = MIN_NUMBER_OF_THREADS;
+    int numThrds;
     // prompt user
     printf("Would you like to change the number of threads created? (y/N) ");
     fgets(response, MSG_SIZE, stdin);
@@ -90,7 +90,7 @@ int promptForMoreThreads(void)
         case 'y':
         case 'Y':
             // get new number of threads
-            printf("Please enter the number of threads you would like: ");
+            printf("Please enter the number of threads you would like (1-100): ");
             numThrds = atoi(fgets(response, MSG_SIZE, stdin));
             
             // make sure new number is within limits
@@ -98,13 +98,13 @@ int promptForMoreThreads(void)
                 numThrds = MIN_NUMBER_OF_THREADS;
             else if(numThrds > MAX_NUMBER_OF_THREADS)
                 numThrds = MAX_NUMBER_OF_THREADS;
-            return numThrds;
+            break;
         default:
+            numThrds = DEFAULT_NUM_THREADS;
             break;
     }
     
-    // default return value
-    return DEFAULT_NUM_THREADS;
+    return numThrds;
 }
 
 // Let the user change the thread message if desired
@@ -125,11 +125,10 @@ void promptForNewMessage(char* msg)
             // remove extra newline
             char* last = strrchr(msg, '\n');
             *last = '\0';
-            return;
+            break;
         default:
+            // default return value
+            strcpy(msg, "Hello from this thread.");
             break;
     }
-
-    // default return value
-    strcpy(msg, "Hello from this thread.");
 }
