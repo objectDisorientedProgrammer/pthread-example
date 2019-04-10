@@ -18,14 +18,18 @@
 
 #include "program.h"
 
+static void displayHelp(void);
+
 int main(int argc, char* argv[])
 {
+    int threads;
+    ThreadData td[MAX_NUMBER_OF_THREADS];
+
     puts(license); // show GPL at start of program output
-    
-    int threads = promptForMoreThreads();
-    ThreadData td[threads];
+
+    threads = promptForMoreThreads();
     createThreads(td, threads);
-    
+
     puts("Main thread created all child threads..");
 
     joinThreads(td, threads);
@@ -46,7 +50,7 @@ void errorHandle(const char* msg)
 void* threadFunction(void* arg)
 {
     ThreadData* data = (ThreadData*) arg;
-    
+
     printf("[%ld, %d] %s\n", data->tid, data->id, data->message);
 
     pthread_exit(0);
@@ -58,11 +62,11 @@ void createThreads(ThreadData* td, int numberOfThreads)
     char tMsg[MSG_SIZE];
 
     promptForNewMessage(tMsg);
-    
+
     for(int8 i = 0; i < numberOfThreads; ++i)
     {
         td[i].id = i+1;
-        strcpy(td[i].message, tMsg);
+        strncpy(td[i].message, tMsg, (size_t)MSG_SIZE);
         if(pthread_create(&td[i].tid, NULL, threadFunction, &td[i]))
             errorHandle("Error creating thread");
     }
@@ -84,7 +88,7 @@ int promptForMoreThreads(void)
     // prompt user
     printf("Would you like to change the number of threads created? (y/N) ");
     fgets(response, MSG_SIZE, stdin);
-    
+
     switch(*response)
     {
         case 'y':
@@ -92,7 +96,7 @@ int promptForMoreThreads(void)
             // get new number of threads
             printf("Please enter the number of threads you would like (1-100): ");
             numThrds = atoi(fgets(response, MSG_SIZE, stdin));
-            
+
             // make sure new number is within limits
             if(numThrds < MIN_NUMBER_OF_THREADS)
                 numThrds = MIN_NUMBER_OF_THREADS;
@@ -103,7 +107,7 @@ int promptForMoreThreads(void)
             numThrds = DEFAULT_NUM_THREADS;
             break;
     }
-    
+
     return numThrds;
 }
 
@@ -112,7 +116,7 @@ void promptForNewMessage(char* msg)
 {
     printf("Would you like to change the thread message? (y/N) ");
     fgets(msg, MSG_SIZE, stdin);
-    
+
     switch(*msg)
     {
         case 'y':
@@ -121,7 +125,7 @@ void promptForNewMessage(char* msg)
             printf("Please enter a new message:\n    ");
             if(fgets(msg, MSG_SIZE, stdin) == NULL)
                 errorHandle("No new message was entered.\n");
-            
+
             // remove extra newline
             char* last = strrchr(msg, '\n');
             *last = '\0';
@@ -131,4 +135,9 @@ void promptForNewMessage(char* msg)
             strcpy(msg, "Hello from this thread.");
             break;
     }
+}
+
+void displayHelp(void)
+{
+    puts("\nUsage: runner [threadCount]");
 }
