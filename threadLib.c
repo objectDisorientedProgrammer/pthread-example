@@ -20,24 +20,7 @@
 
 static void displayHelp(void);
 
-int main(int argc, char* argv[])
-{
-    int threads;
-    ThreadData td[MAX_NUMBER_OF_THREADS];
 
-    puts(license); // show GPL at start of program output
-
-    threads = promptForMoreThreads();
-    createThreads(td, threads);
-
-    puts("Main thread created all child threads..");
-
-    joinThreads(td, threads);
-
-    puts("Main thread joined all child threads. Now exiting.\n");
-
-    return 0;
-}
 
 // Print an error message to stderr
 void errorHandle(const char* msg)
