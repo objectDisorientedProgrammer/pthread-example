@@ -1,5 +1,5 @@
 /*
-    Example program to demonstrate pthreads.
+    Thread API.
     Copyright (C) 2015  Douglas Chidester
 
     This program is free software: you can redistribute it and/or modify
@@ -16,18 +16,41 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "program.h"
+#include "threadLib.h"
+#include <stdio.h> // for thread task
+#include <string.h>
 
 static void displayHelp(void);
+static void errorHandle(const char* msg);
+static void* threadFunction(void* arg);
 
+/* Exported (public) functions */
 
-
-// Print an error message to stderr
-void errorHandle(const char* msg)
+// Create all threads and catch errors
+void createThreads(ThreadData* td, int numberOfThreads)
 {
-    fprintf(stderr, "%s", msg);
-    exit(-1);
+    //char tMsg[MSG_SIZE];
+
+    for(unsigned i = 0; i < numberOfThreads; ++i)
+    {
+        td[i].id = i+1;
+
+        //strncpy(td[i].message, tMsg, (size_t)MSG_SIZE);
+
+        if(pthread_create(&td[i].tid, NULL, threadFunction, &td[i]))
+            errorHandle("Error creating thread");
+    }
 }
+
+// Collect finished threads and catch errors
+void joinThreads(ThreadData* td, int numberOfThreads)
+{
+    for(unsigned j = 0; j < numberOfThreads; ++j)
+        if(pthread_join(td[j].tid, NULL))
+            errorHandle("Error joining thread");
+}
+
+/* Local functions */
 
 // Each thread executes this function
 void* threadFunction(void* arg)
@@ -39,88 +62,3 @@ void* threadFunction(void* arg)
     pthread_exit(0);
 }
 
-// Create all threads and catch errors
-void createThreads(ThreadData* td, int numberOfThreads)
-{
-    char tMsg[MSG_SIZE];
-
-    promptForNewMessage(tMsg);
-
-    for(int8 i = 0; i < numberOfThreads; ++i)
-    {
-        td[i].id = i+1;
-        strncpy(td[i].message, tMsg, (size_t)MSG_SIZE);
-        if(pthread_create(&td[i].tid, NULL, threadFunction, &td[i]))
-            errorHandle("Error creating thread");
-    }
-}
-
-// Collect finished threads and catch errors
-void joinThreads(ThreadData* td, int numberOfThreads)
-{
-    for(int8 j = 0; j < numberOfThreads; ++j)
-        if(pthread_join(td[j].tid, NULL))
-            errorHandle("Error joining thread");
-}
-
-// Let the user change number of threads created if desired
-int promptForMoreThreads(void)
-{
-    char response[MSG_SIZE];
-    int numThrds;
-    // prompt user
-    printf("Would you like to change the number of threads created? (y/N) ");
-    fgets(response, MSG_SIZE, stdin);
-
-    switch(*response)
-    {
-        case 'y':
-        case 'Y':
-            // get new number of threads
-            printf("Please enter the number of threads you would like (1-100): ");
-            numThrds = atoi(fgets(response, MSG_SIZE, stdin));
-
-            // make sure new number is within limits
-            if(numThrds < MIN_NUMBER_OF_THREADS)
-                numThrds = MIN_NUMBER_OF_THREADS;
-            else if(numThrds > MAX_NUMBER_OF_THREADS)
-                numThrds = MAX_NUMBER_OF_THREADS;
-            break;
-        default:
-            numThrds = DEFAULT_NUM_THREADS;
-            break;
-    }
-
-    return numThrds;
-}
-
-// Let the user change the thread message if desired
-void promptForNewMessage(char* msg)
-{
-    printf("Would you like to change the thread message? (y/N) ");
-    fgets(msg, MSG_SIZE, stdin);
-
-    switch(*msg)
-    {
-        case 'y':
-        case 'Y':
-            // get new number of threads
-            printf("Please enter a new message:\n    ");
-            if(fgets(msg, MSG_SIZE, stdin) == NULL)
-                errorHandle("No new message was entered.\n");
-
-            // remove extra newline
-            char* last = strrchr(msg, '\n');
-            *last = '\0';
-            break;
-        default:
-            // default return value
-            strcpy(msg, "Hello from this thread.");
-            break;
-    }
-}
-
-void displayHelp(void)
-{
-    puts("\nUsage: runner [threadCount]");
-}

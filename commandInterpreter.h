@@ -18,11 +18,15 @@
 
 #pragma once
 
+
+
 #ifdef __cplusplus // protect against c++ compiler name mangling
 extern "C" {
 #endif
 
-
+int promptForMoreThreads(void);
+void promptForNewMessage(char* msg, int length);
+void displayHelp(void);
 
 #ifdef __cplusplus
 }

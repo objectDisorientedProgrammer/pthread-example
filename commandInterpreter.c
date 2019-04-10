@@ -17,4 +17,69 @@
 */
 
 #include "commandInterpreter.h"
+#include "common.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
+// Let the user change number of threads created if desired
+int promptForMoreThreads(void)
+{
+    char response[MAX_MSG_SIZE];
+    int numThrds;
+    // prompt user
+    printf("Would you like to change the number of threads created? (y/N) ");
+    fgets(response, MAX_MSG_SIZE, stdin);
+
+    switch(*response)
+    {
+        case 'y':
+        case 'Y':
+            // get new number of threads
+            printf("Please enter the number of threads you would like (1-100): ");
+            numThrds = atoi(fgets(response, MAX_MSG_SIZE, stdin));
+
+            // make sure new number is within limits
+            if(numThrds < MIN_NUMBER_OF_THREADS)
+                numThrds = MIN_NUMBER_OF_THREADS;
+            else if(numThrds > MAX_NUMBER_OF_THREADS)
+                numThrds = MAX_NUMBER_OF_THREADS;
+            break;
+        default:
+            numThrds = DEFAULT_NUMBER_OF_THREADS;
+            break;
+    }
+
+    return numThrds;
+}
+
+// Let the user change the thread message if desired
+void promptForNewMessage(char* msg, int length)
+{
+    printf("Would you like to change the thread message? (y/N) ");
+    fgets(msg, MAX_MSG_SIZE, stdin);
+
+    switch(*msg)
+    {
+        case 'y':
+        case 'Y':
+            // get new number of threads
+            printf("Please enter a new message:\n    ");
+            if(fgets(msg, MAX_MSG_SIZE, stdin) == NULL)
+                errorHandle("No new message was entered.\n");
+
+            // remove extra newline
+            char* last = strrchr(msg, '\n');
+            *last = '\0';
+            break;
+        default:
+            // default return value
+            strcpy(msg, "Hello from this thread.");
+            break;
+    }
+}
+
+void displayHelp(void)
+{
+    puts("\nUsage: runner [threadCount]");
+}

@@ -18,17 +18,25 @@
 
 #pragma once
 
-#include "common.h"
-#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-// define what data each thread will use
-typedef struct
+#ifdef __cplusplus // protect against c++ compiler name mangling
+extern "C" {
+#endif
+
+#define DEFAULT_NUMBER_OF_THREADS  4
+#define MIN_NUMBER_OF_THREADS  1
+#define MAX_NUMBER_OF_THREADS  100
+#define MAX_MSG_SIZE  100
+
+// Print an error message to stderr
+static void errorHandle(const char* msg)
 {
-    unsigned id; // 0 - 127
-    pthread_t tid;
-    char message[MAX_MSG_SIZE];
-} ThreadData;
+    fprintf(stderr, "%s", msg);
+    exit(-1);
+}
 
-void createThreads(ThreadData* td, int numberOfThreads);
-void joinThreads(ThreadData* td, int numberOfThreads);
-
+#ifdef __cplusplus
+}
+#endif

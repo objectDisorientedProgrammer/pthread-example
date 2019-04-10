@@ -16,7 +16,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "main.h"
+#include "commandInterpreter.h"
+#include "threadLib.h"
+#include <stdio.h>
+
+// license for command line interfaces
+static char* license = "Copyright (C) 2015 Douglas Chidester. This program comes with\nABSOLUTELY NO WARRANTY;\
+                This is free software, and you are welcome to\nredistribute it under certain conditions.\n";
 
 int main(int argc, char* argv[])
 {
