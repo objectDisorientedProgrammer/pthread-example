@@ -2,7 +2,7 @@
 
 DEPS=program.c # program file(s)
 FLAGS=-std=c99 -lpthread -o
-EXEC=application # compiled program name
+EXEC=runner # compiled program name
 CC=clang # compiler
 
 all: $(EXEC)
@@ -10,7 +10,7 @@ all: $(EXEC)
 check: $(EXEC)
 	./$(EXEC)
 
-application: $(DEPS)
+$(EXEC): $(DEPS)
 	$(CC) $(DEPS) $(FLAGS) $(EXEC)
 
 clean:

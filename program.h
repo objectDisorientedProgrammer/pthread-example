@@ -46,7 +46,7 @@ char* license = "Copyright (C) 2015 Douglas Chidester. This program comes with\n
 // local functions
 static void errorHandle(const char* msg);
 static void* threadFunction(void* arg);
-static void createThreads(ThreadData* td, int numberOfThreads);
+void createThreads(ThreadData* td, int numberOfThreads);
 static void joinThreads(ThreadData* td, int numberOfThreads);
 
 static int promptForMoreThreads(void);
