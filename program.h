@@ -19,9 +19,6 @@
 #ifndef PROGRAM_H
 #define PROGRAM_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <pthread.h>
 
 #define MSG_SIZE               (100u)
@@ -42,14 +39,5 @@ typedef struct
 // license for command line interfaces
 char* license = "Copyright (C) 2015 Douglas Chidester. This program comes with\nABSOLUTELY NO WARRANTY;\
  This is free software, and you are welcome to\nredistribute it under certain conditions.\n";
-
-// local functions
-static void errorHandle(const char* msg);
-static void* threadFunction(void* arg);
-void createThreads(ThreadData* td, int numberOfThreads);
-static void joinThreads(ThreadData* td, int numberOfThreads);
-
-static int promptForMoreThreads(void);
-static void promptForNewMessage(char* msg);
 
 #endif

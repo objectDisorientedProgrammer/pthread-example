@@ -17,17 +17,35 @@
 */
 
 #include "program.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <time.h>
 
+// local functions
 static void displayHelp(void);
+static int promptForMoreThreads(void);
+static void promptForNewMessage(char* msg);
+// thread functions
+static void errorHandle(const char* msg);
+static void* threadFunction(void* arg);
+static void createThreads(ThreadData* td, int numberOfThreads);
+static void joinThreads(ThreadData* td, int numberOfThreads);
+
+static char* defaultThreadText = "Hello from this thread.";
 
 int main(int argc, char* argv[])
 {
-    int threads;
+    int threads = DEFAULT_NUM_THREADS;
     ThreadData td[MAX_NUMBER_OF_THREADS];
+    srand(time(NULL)); // seed random number generator
 
     puts(license); // show GPL at start of program output
 
-    threads = promptForMoreThreads();
+    // TODO change prompts to be argument flags
+    //threads = promptForMoreThreads();
+    //promptForNewMessage(tMsg);
     createThreads(td, threads);
 
     puts("Main thread created all child threads..");
@@ -50,8 +68,13 @@ void errorHandle(const char* msg)
 void* threadFunction(void* arg)
 {
     ThreadData* data = (ThreadData*) arg;
+    int sleepTime = rand() % 4;
+    sleep(sleepTime); // sleep 0 to N seconds
 
-    printf("[%ld, %d] %s\n", data->tid, data->id, data->message);
+    char str[8] = "seconds";
+    if (sleepTime == 1)
+        str[6] = '\0';
+    printf("[%ld, %d] %s. Woke up after %d %s.\n", data->tid, data->id, data->message, sleepTime, str);
 
     pthread_exit(0);
 }
@@ -61,7 +84,7 @@ void createThreads(ThreadData* td, int numberOfThreads)
 {
     char tMsg[MSG_SIZE];
 
-    promptForNewMessage(tMsg);
+    strcpy(tMsg, defaultThreadText);
 
     for(int8 i = 0; i < numberOfThreads; ++i)
     {
