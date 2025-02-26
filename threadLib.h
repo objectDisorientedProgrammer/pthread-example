@@ -16,7 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
+#ifndef PTHREAD_EXAMPLE_THREADLIB_H
+#define PTHREAD_EXAMPLE_THREADLIB_H
 
 #include "common.h"
 #include <pthread.h>
@@ -24,6 +25,8 @@
 // define what data each thread will use
 typedef struct
 {
+    int isDelayedStart; // 0 or 1
+    int delay; // seconds
     unsigned id; // 0 - 127
     pthread_t tid;
     char message[MAX_MSG_SIZE];
@@ -32,3 +35,4 @@ typedef struct
 void createThreads(ThreadData* td, int numberOfThreads);
 void joinThreads(ThreadData* td, int numberOfThreads);
 
+#endif // PTHREAD_EXAMPLE_THREADLIB_H

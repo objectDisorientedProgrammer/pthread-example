@@ -1,6 +1,6 @@
 /*
 	Command line I/O handler.
-    Copyright (C) 2015-2019  Douglas Chidester
+    Copyright (C) 2015  Douglas Chidester
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,9 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
-
-
+#ifndef PTHREAD_EXAMPLE_COMMANDINTERPRETER_H
+#define PTHREAD_EXAMPLE_COMMANDINTERPRETER_H
 
 #ifdef __cplusplus // protect against c++ compiler name mangling
 extern "C" {
@@ -32,3 +31,4 @@ void displayHelp(void);
 }
 #endif
 
+#endif // PTHREAD_EXAMPLE_COMMANDINTERPRETER_H

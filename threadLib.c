@@ -17,8 +17,9 @@
 */
 
 #include "threadLib.h"
-#include <stdio.h> // for thread task
+//#include <stdio.h> // for thread task
 #include <string.h>
+#include <unistd.h>
 
 static void displayHelp(void);
 static void errorHandle(const char* msg);
@@ -57,7 +58,16 @@ void* threadFunction(void* arg)
 {
     ThreadData* data = (ThreadData*) arg;
 
-    printf("[%ld, %d] %s\n", data->tid, data->id, data->message);
+    char str[8] = "seconds";
+    if (data->isDelayedStart)
+    {
+        // change "seconds" to "second" if delay is 1 second.
+        if (data->delay == 1)
+            str[6] = '\0';
+        sleep(data->delay);
+    }
+
+    printf("[%ld, %d] Woke up after %d %s. %s\n", data->tid, data->id, data->delay, str, data->message);
 
     pthread_exit(0);
 }

@@ -19,7 +19,7 @@ $(TL).o: $(TL).c
 	$(CC) $(FLAGS) -c $(TL).c
 
 $(EXEC): $(DEPS)
-	$(CC) $(DEPS) $(FLAGS) -o $(EXEC)
+	$(CC) main.c $(DEPS) $(FLAGS) -o $(EXEC)
 
 clean:
 	rm $(EXEC) $(CI).o $(TL).o

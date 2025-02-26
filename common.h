@@ -16,7 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
+#ifndef PTHREAD_EXAMPLE_COMMON_H
+#define PTHREAD_EXAMPLE_COMMON_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,3 +41,5 @@ static void errorHandle(const char* msg)
 #ifdef __cplusplus
 }
 #endif
+
+#endif // PTHREAD_EXAMPLE_COMMON_H

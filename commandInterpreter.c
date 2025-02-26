@@ -1,6 +1,6 @@
 /*
 	Command line I/O handler.
-    Copyright (C) 2015-2019  Douglas Chidester
+    Copyright (C) 2015  Douglas Chidester
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -74,7 +74,7 @@ void promptForNewMessage(char* msg, int length)
             break;
         default:
             // default return value
-            strcpy(msg, "Hello from this thread.");
+            strncpy(msg, "Hello from a thread.", (size_t)MAX_MSG_SIZE);
             break;
     }
 }

@@ -1,6 +1,6 @@
 /*
 	Example program to demonstrate pthreads.
-    Copyright (C) 2015-2019  Douglas Chidester
+    Copyright (C) 2015  Douglas Chidester
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,19 +19,31 @@
 #include "commandInterpreter.h"
 #include "threadLib.h"
 #include <stdio.h>
+#include <string.h>
+#include <time.h>
 
 // license for command line interfaces
 static char* license = "Copyright (C) 2015 Douglas Chidester. This program comes with\nABSOLUTELY NO WARRANTY;\
                 This is free software, and you are welcome to\nredistribute it under certain conditions.\n";
 
+static void setRandomStartDelayForAllThreads(ThreadData* tdArray, int arrayLength);
+static void setRandomThreadStartDelay(ThreadData* td);
+static void setDefaultMessageForAllThreads(ThreadData* tdArray, int arrayLength);
+
 int main(int argc, char* argv[])
 {
+    srand(time(NULL)); // seed random number generator
     int threads;
     ThreadData td[MAX_NUMBER_OF_THREADS];
 
     puts(license); // show GPL at start of program output
 
     threads = promptForMoreThreads();
+
+    // set thread default values
+    setRandomStartDelayForAllThreads(td, threads);
+    setDefaultMessageForAllThreads(td, threads);
+
     createThreads(td, threads);
 
     puts("Main thread created all child threads..");
@@ -43,3 +55,24 @@ int main(int argc, char* argv[])
     return 0;
 }
 
+static void setRandomStartDelayForAllThreads(ThreadData* tdArray, int arrayLength)
+{
+    for (int i = 0; i < arrayLength; ++i)
+    {
+        setRandomThreadStartDelay(&tdArray[i]);
+    }
+}
+
+static void setRandomThreadStartDelay(ThreadData* td)
+{
+    const int maxSleepNonInclusive = 6; // seconds
+    td->delay = rand() % maxSleepNonInclusive;
+}
+
+static void setDefaultMessageForAllThreads(ThreadData* tdArray, int arrayLength)
+{
+    for (int i = 0; i < arrayLength; ++i)
+    {
+        strncpy(tdArray[i].message, "Default thread message.", (size_t)MAX_MSG_SIZE);
+    }
+}
