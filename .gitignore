@@ -1,1 +1,6 @@
-application
+runner
+program.h
+program.c
+
+*.o
+a.out
