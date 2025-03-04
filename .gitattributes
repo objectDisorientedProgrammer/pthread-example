@@ -1,0 +1,42 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+
+###### Git
+.gitattributes text
+.gitignore text
+.gitconfig text
+.gitmodules text
+
+##### Linux
+*.sh text eol=lf
+*.so binary
+*.out binary
+
+# Explicitly declare text files you want to always be normalized and converted
+# to native line endings on checkout.
+*.c text
+*.h text
+*.txt text
+AUTHORS text
+CHANGELOG text
+CHANGES text
+CONTRIBUTING text
+COPYING text
+copyright text
+*COPYRIGHT* text
+INSTALL text
+license text
+LICENSE text
+readme text
+*README* text
+*.yaml text
+*.yml text
+Makefile text
+makefile text
+
+# Archives
+*.gz binary
+*.zip binary
+
+# Objects
+*.o binary
