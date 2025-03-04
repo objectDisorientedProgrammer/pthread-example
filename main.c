@@ -22,9 +22,9 @@
 #include <string.h>
 #include <time.h>
 
-// license for command line interfaces
-static char* license = "Copyright (C) 2015 Douglas Chidester. This program comes with\nABSOLUTELY NO WARRANTY;\
-                This is free software, and you are welcome to\nredistribute it under certain conditions.\n";
+// License for command line interfaces. Formatted to play nice with 80 character wide terminals.
+static char* license = "Copyright (C) 2015 Douglas Chidester. This program comes with ABSOLUTELY\n\
+NO WARRANTY; This is free software, and you are welcome to redistribute it under\ncertain conditions.\n";
 
 static void setRandomStartDelayForAllThreads(ThreadData* tdArray, int arrayLength);
 static void setRandomThreadStartDelay(ThreadData* td);

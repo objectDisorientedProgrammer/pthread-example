@@ -67,7 +67,7 @@ void* threadFunction(void* arg)
         sleep(data->delay);
     }
 
-    printf("[%ld, %d] Woke up after %d %s. %s\n", data->tid, data->id, data->delay, str, data->message);
+    printf("[%ld, %3d] Woke up after %d %s. %s\n", data->tid, data->id, data->delay, str, data->message);
 
     pthread_exit(0);
 }
