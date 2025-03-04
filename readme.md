@@ -1,13 +1,13 @@
-PThread Example
-===============
-A simple example for using threads in C.
+# PThread Example
+A simple example of using threads in C.
 
 ## Dependencies:
 * clang
 * pthread
 
 ## Building
-Use the 'make all' command to build the application.
+Use `make all` to build.
 
-Compile with -lpthread.
+Use `make check` to build _and run_ the application.
 
+Use `make clean` to remove build artifacts.
